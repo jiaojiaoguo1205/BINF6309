@@ -2,4 +2,4 @@
 use warnings;
 use strict;
 
-print "Hello Git edited on server", "\n";
+print "Hello Git edited on Eclipse", "\n";
