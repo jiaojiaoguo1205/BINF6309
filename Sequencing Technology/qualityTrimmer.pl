@@ -15,7 +15,7 @@ my $r2_obj = Bio::SeqIO->new(
 	-format => 'fastq'
 );
 
-#create a object to write-in
+#create a object for output file
 my $out_obj = Bio::SeqIO->new(
 	-file   => '>interleaved.fastq',
 	-format => 'fastq'
@@ -24,24 +24,24 @@ my $out_obj = Bio::SeqIO->new(
 #read the fastq file
 while ( my $left = $r1_obj->next_seq ) {
 
-	#trimme the sequence with Phred Score less than 20
+	#get the longest subsequence that has quality values above 20
 	my $leftTrimmed = $left->get_clear_range(20);
 
 	#copy the descrition from the orignal file
 	$leftTrimmed->desc( $left->desc() );
 
-	#write into the file
+	#write into the output file
 	$out_obj->write_seq($leftTrimmed);
 
 	#read the mated sequence
 	my $right = $r2_obj->next_seq;
 
-	#trimme the sequence with Phred Score less than 20
+	#get the longest subsequence that has quality values above 20
 	my $rightTrimmed = $right->get_clear_range(20);
 
 	#copy the descrition from the orignal file
 	$rightTrimmed->desc( $right->desc() );
 
-	#write into the file
+	#write into the output file
 	$out_obj->write_seq($rightTrimmed);
 }
