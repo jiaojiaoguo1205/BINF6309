@@ -18,10 +18,10 @@ my $fasta = '';
 
 my $usage = "\n$0 [options] \n
 Options:
-    -fastain input fasta file
+    -fastaIn input file
 \n";
 GetOptions(
-    'fastain=s'    => \$fasta,
+    'fastaIn=s'    => \$fasta,
     'help'      => sub{ pd2usage($usage); },
 ) or pod2usage($usage);
 
