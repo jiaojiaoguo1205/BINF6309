@@ -38,7 +38,7 @@ my $seqiowrite_obj = Bio::SeqIO->new(-file => '>crisprs2.fasta',
 
 
 #read the fasta file
-my $seqioread_obj = Bio::SeqIO->new(-file => "$fasta",
+my $seqioread_obj = Bio::SeqIO->new(-file => $fasta,
                                  -format => 'fasta');
 #create the DNA sequence 
 my $seq;
