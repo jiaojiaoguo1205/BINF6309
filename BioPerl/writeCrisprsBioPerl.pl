@@ -14,19 +14,19 @@ use Pod::Usage;
 # Create a second hash to count how many times each 12-mer occurs in the genome.
 # For each 12-mer that only occurs ONCE, the corresponding 21-mer is a potential CRISPR.
 # Print the crisprs.fasta
-my $fastain = '';
+my $fasta = '';
 
 my $usage = "\n$0 [options] \n
 Options:
     -fasta input fasta file
 \n";
 GetOptions(
-    'fasta=s'    => \$fastain,
+    'fasta=s'    => \$fasta,
     'help'      => sub{ pd2usage($usage); },
 ) or pod2usage($usage);
 
 
-	unless (-e $fastain){
+	unless (-e $fasta){
 		print "Specify the input file\n;"
 	}
 	
@@ -38,7 +38,7 @@ my $seqiowrite_obj = Bio::SeqIO->new(-file => '>crisprs2.fasta',
 
 
 #read the fasta file
-my $seqioread_obj = Bio::SeqIO->new(-file => "$fastain",
+my $seqioread_obj = Bio::SeqIO->new(-file => "$fasta",
                                  -format => 'fasta');
 #create the DNA sequence 
 my $seq;
