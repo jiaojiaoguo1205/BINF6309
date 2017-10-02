@@ -2,7 +2,7 @@
 use warnings;
 use strict;
 use diagnostics;
-use Bio::Seq; 
+use Bio::Seq;
 use Bio::SeqIO;
 use Getopt::Long;
 use Pod::Usage;
@@ -14,6 +14,7 @@ use Pod::Usage;
 # Create a second hash to count how many times each 12-mer occurs in the genome.
 # For each 12-mer that only occurs ONCE, the corresponding 21-mer is a potential CRISPR.
 # Print the crisprs.fasta
+#GLOBALS
 my $fasta = '';
 
 my $usage = "\n$0 [options] \n
@@ -21,32 +22,35 @@ Options:
     -fastaIn input file
 \n";
 GetOptions(
-    'fastaIn=s'    => \$fasta,
-    'help'      => sub{ pd2usage($usage); },
+	'fastaIn=s' => \$fasta,
+	'help'      => sub { pd2usage($usage); },
 ) or pod2usage($usage);
 
-
-	unless (-e $fasta){
-		print "Specify the input file\n;"
+unless ( -e $fasta ) {
+	unless ( -e $fasta ) {
+		print "Specify the input file\n;";
 	}
-	
+
 	die "Missing required options\n";
-	
-#create an output file
-my $seqiowrite_obj = Bio::SeqIO->new(-file => '>crisprs2.fasta',
-                            -format => 'fasta');
-
-
-#read the fasta file
-my $seqioread_obj = Bio::SeqIO->new(-file => $fasta,
-                                 -format => 'fasta');
-#create the DNA sequence 
-my $seq;
-while( my $seq_obj = $seqioread_obj->next_seq){
-  $seq .= $seq_obj->seq;
 }
 
+#create an output file
+my $seqiowrite_obj = Bio::SeqIO->new(
+	-file   => '>crisprs2.fasta',
+	-format => 'fasta'
+);
 
+#read the fasta file
+my $seqioread_obj = Bio::SeqIO->new(
+	-file   => $fasta,
+	-format => 'fasta'
+);
+
+#create the DNA sequence
+my $seq;
+while ( my $seq_obj = $seqioread_obj->next_seq ) {
+	$seq .= $seq_obj->seq;
+}
 
 #hash to store kmers
 my %kMerHash = ();
@@ -73,7 +77,7 @@ for (
 
 	#Get a 21-mer substring from sequenceRef (two $ to deference reference to
 	#sequence string) starting at the window start for length $windowStart
-	my $crisprSeq = substr($seq, $windowStart, $windowSize );
+	my $crisprSeq = substr( $seq, $windowStart, $windowSize );
 
 #if the 21-mer ends in GG, create a hash with key=last 12 of k-mer and value is 21-mer
 #Regex where $1 is the crispr, and $2 contains the last 12 of crispr.
@@ -91,7 +95,7 @@ for (
 my $crisprCount = 0;
 
 #Loop through the hash of last 12 counts
-for my $last12Seq ( sort (keys %last12Counts) ) {
+for my $last12Seq ( sort ( keys %last12Counts ) ) {
 
 	#Check if count == 1 for this sequence
 	if ( $last12Counts{$last12Seq} == 1 ) {
@@ -101,9 +105,11 @@ for my $last12Seq ( sort (keys %last12Counts) ) {
 		$crisprCount++;
 
 		#Print the CRISPR in FASTA format.
-		my $seq1_obj = Bio::Seq->new(-seq => $kMerHash{$last12Seq},
-		                             -alphabet => 'dna',
-		                             -desc => ">crispr_$crisprCount CRISPR");
+		my $seq1_obj = Bio::Seq->new(
+			-seq      => $kMerHash{$last12Seq},
+			-alphabet => 'dna',
+			-desc     => ">crispr_$crisprCount CRISPR"
+		);
 		$seqiowrite_obj->write_seq($seq1_obj);
 	}
 }
