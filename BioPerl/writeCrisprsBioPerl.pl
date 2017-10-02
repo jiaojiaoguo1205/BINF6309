@@ -4,6 +4,8 @@ use strict;
 use diagnostics;
 use Bio::Seq; 
 use Bio::SeqIO;
+use Getopt::Long;
+use Pod::Usage;
 
 #username: croesel
 
@@ -12,14 +14,31 @@ use Bio::SeqIO;
 # Create a second hash to count how many times each 12-mer occurs in the genome.
 # For each 12-mer that only occurs ONCE, the corresponding 21-mer is a potential CRISPR.
 # Print the crisprs.fasta
+my $fastain = '';
 
+my $usage = "\n$0 [options] \n
+Options:
+    -fasta input fasta file
+\n";
+GetOptions(
+    'fasta=s'    => \$fastain,
+    'help'      => sub{ pd2usage($usage); },
+) or pod2usage($usage);
+
+
+	unless (-e $fastain){
+		print "Specify the input file\n;"
+	}
+	
+	die "Missing required options\n";
+	
 #create an output file
 my $seqiowrite_obj = Bio::SeqIO->new(-file => '>crisprs2.fasta',
                             -format => 'fasta');
 
 
 #read the fasta file
-my $seqioread_obj = Bio::SeqIO->new(-file => 'dmel-all-chromosome-r6.17.fasta',
+my $seqioread_obj = Bio::SeqIO->new(-file => "$fastain",
                                  -format => 'fasta');
 #create the DNA sequence 
 my $seq;
