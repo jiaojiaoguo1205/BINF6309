@@ -36,7 +36,7 @@ unless ( -e $fasta ) {
 
 #create an output file
 my $seqiowrite_obj = Bio::SeqIO->new(
-	-file   => '>crisprs2.fasta',
+	-file   => '>crisprs1.fasta',
 	-format => 'fasta'
 );
 
