@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use warnings;
-
+use strict;
 use diagnostics;
 use Bio::Seq;
 use Bio::SeqIO;
