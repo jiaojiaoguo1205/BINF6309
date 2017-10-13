@@ -7,12 +7,12 @@ for file in $fastqPath*$leftSuffix
 do
     pathRemoved="${file/$fastqPath/}"
     sampleName="${pathRemoved/$leftSuffix/}"
-    echo nice -n 19 gsnap \
+    nice -n 19 gsnap \
     -A sam \
     -s AiptasiaGmapIIT.iit \
     -D . \
     -d AiptasiaGmapDb \
-    $sampleName$leftSuffix \
-    $sampleName$rightSuffix \
-    #1>$outPath$sampleName.sam 
+    $fastqPath$sampleName$leftSuffix \
+    $fastqPath$sampleName$rightSuffix \
+    1>$outPath$sampleName.sam 2>$outPath$sampleName.err 
 done

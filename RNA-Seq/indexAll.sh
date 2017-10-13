@@ -5,7 +5,6 @@ for file in $bamPath*$suffix
 do
     pathRemoved="${file/$bamPath/}"
     sampleName="${pathRemoved/$suffix/}"
-    echo samtools index $sampleName$suffix \
-    -o $bamPath
-#1>Aip02.index.log 2>Aip02.index.err &
+    samtools index $bamPath$sampleName$suffix \
+    1>$bamPath$sampleName.index.log 2>$bamPath$sampleName.index.err 
 done
