@@ -1,17 +1,7 @@
-/.metadata/
-<<<<<<< HEAD
-/.DS_Store
-*.fasta
-*.fastq
-*.sam
-*.bam
-*.bai
-*.err
-*.iit
-*.log
-*.err
-AiptasiaGmapDb/
-trinity_out_dir/
-=======
-*.fasta
->>>>>>> 4cce12d440f75bfcd3fa870bd9b3bcf1eaa84f52
+*.*
+!*.sh
+!*.pl
+!*.csv
+!.gitignore 
+!*.xprs
+!*.matrix
