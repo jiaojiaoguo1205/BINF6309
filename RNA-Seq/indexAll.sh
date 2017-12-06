@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 bamPath="Bam/"
 suffix=".sorted.bam"
 for file in $bamPath*$suffix
